@@ -1,0 +1,44 @@
+# ⚡ Vercel Deployment Guide
+
+## Step 1: Create vercel.json
+
+```json
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/server.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/server.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/build/$1"
+    }
+  ],
+  "env": {
+    "MONGO_URL": "@mongo-url",
+    "DB_NAME": "activus_invoice_db",
+    "SECRET_KEY": "@secret-key"
+  }
+}
+```
+
+## Step 2: Deploy
+
+1. Install Vercel CLI: `npm i -g vercel`
+2. Run: `vercel`
+3. Follow the prompts
+4. Deploy!

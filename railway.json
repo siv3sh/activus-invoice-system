@@ -1,0 +1,40 @@
+# 🚀 Railway Deployment Guide
+
+## Step 1: Prepare Your Project
+
+1. **Create a railway.json file**:
+```json
+{
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile"
+  },
+  "deploy": {
+    "startCommand": "python server.py",
+    "healthcheckPath": "/docs",
+    "healthcheckTimeout": 300,
+    "restartPolicyType": "ON_FAILURE"
+  }
+}
+```
+
+2. **Update your Dockerfile** (already done!)
+
+3. **Environment Variables**:
+   - MONGO_URL: (Railway will provide MongoDB)
+   - DB_NAME: activus_invoice_db
+   - SECRET_KEY: (generate a strong key)
+
+## Step 2: Deploy on Railway
+
+1. Go to https://railway.app
+2. Sign up with GitHub
+3. Click "New Project" → "Deploy from GitHub repo"
+4. Select your repository
+5. Add MongoDB service
+6. Set environment variables
+7. Deploy!
+
+## Step 3: Get Your URL
+
+Railway will give you a URL like: `https://your-app-name.up.railway.app`
