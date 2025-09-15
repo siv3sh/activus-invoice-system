@@ -56,7 +56,7 @@ A modern, full-stack invoicing application built with FastAPI and React.
 1. **Sign up** at [render.com](https://render.com)
 2. **Connect GitHub** repository
 3. **Create Web Service**:
-   - Build Command: `pip install -r backend/requirements.txt && cd frontend && yarn install && yarn build`
+   - Build Command: `pip install -r backend/requirements.txt && cd frontend && npm install && npm run build`
    - Start Command: `cd backend && python server.py`
    - Environment: `Python 3`
 4. **Set Environment Variables**:

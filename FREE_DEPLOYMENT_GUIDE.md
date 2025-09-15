@@ -16,7 +16,7 @@
    - Connect your repository
    - Name: `activus-invoice-system`
    - Environment: `Python 3`
-   - Build Command: `pip install -r backend/requirements.txt && cd frontend && yarn install && yarn build`
+   - Build Command: `pip install -r backend/requirements.txt && cd frontend && npm install && npm run build`
    - Start Command: `cd backend && python server.py`
    - Plan: `Free`
 

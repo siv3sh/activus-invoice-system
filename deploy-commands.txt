@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# 🚀 Quick Deploy Script for Activus Invoice System
+# This script helps you deploy to Render with the correct commands
+
+echo "🚀 Activus Invoice System - Quick Deploy"
+echo "========================================"
+echo ""
+
+echo "📋 Render Deployment Commands:"
+echo "=============================="
+echo ""
+echo "1. Build Command:"
+echo "   pip install -r backend/requirements.txt && cd frontend && npm install && npm run build"
+echo ""
+echo "2. Start Command:"
+echo "   cd backend && python server.py"
+echo ""
+echo "3. Environment Variables:"
+echo "   MONGO_URL=mongodb+srv://username:password@cluster.mongodb.net/"
+echo "   DB_NAME=activus_invoice_db"
+echo "   SECRET_KEY=your_super_secret_key_change_this"
+echo "   PORT=10000"
+echo ""
+echo "4. Plan: Free"
+echo ""
+echo "✅ Copy these commands to your Render dashboard!"
+echo ""
+echo "🔗 Render Dashboard: https://dashboard.render.com"
+echo "📚 Full Guide: See FREE_DEPLOYMENT_GUIDE.md"
