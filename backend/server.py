@@ -54,8 +54,11 @@ db = client[os.environ['DB_NAME']]
 app = FastAPI(title="Activus Invoice Management System", version="1.0.0")
 api_router = APIRouter(prefix="/api")
 
-# Mount static files
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Mount static files (only if directory exists)
+import os
+static_dir = os.path.join(os.path.dirname(__file__), "..", "frontend", "build")
+if os.path.exists(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 # Security
 security = HTTPBearer()
@@ -4323,7 +4326,8 @@ async def serve_react_app(full_path: str):
     
     # Serve index.html for all other routes (React Router will handle routing)
     try:
-        with open("static/index.html", "r") as f:
+        index_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "build", "index.html")
+        with open(index_path, "r") as f:
             content = f.read()
         return Response(content=content, media_type="text/html")
     except FileNotFoundError:
