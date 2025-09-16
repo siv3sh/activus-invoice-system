@@ -54,8 +54,11 @@ db = client[os.environ['DB_NAME']]
 app = FastAPI(title="Activus Invoice Management System", version="1.0.0")
 api_router = APIRouter(prefix="/api")
 
-# Backend-only mode - no static files serving
-# Frontend is deployed separately on Vercel
+# Single deployment mode - serve frontend static files
+# Mount static files directory
+static_dir = ROOT_DIR / "static"
+if static_dir.exists():
+    app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
 # Security
 security = HTTPBearer()
@@ -4314,8 +4317,31 @@ async def get_system_health(current_user: dict = Depends(get_current_user)):
 # Include router
 app.include_router(api_router)
 
-# Backend-only API service - no frontend serving
-# Frontend is deployed separately on Vercel
+# Catch-all route to serve React app for client-side routing
+@app.get("/{full_path:path}")
+async def serve_frontend(full_path: str):
+    """Serve the React frontend for all non-API routes"""
+    static_dir = ROOT_DIR / "static"
+    
+    # If it's an API route, let it pass through
+    if full_path.startswith("api/"):
+        raise HTTPException(status_code=404, detail="API endpoint not found")
+    
+    # Check if the requested file exists in static directory
+    requested_file = static_dir / full_path
+    if requested_file.exists() and requested_file.is_file():
+        from fastapi.responses import FileResponse
+        return FileResponse(str(requested_file))
+    
+    # For all other routes, serve the React app (index.html)
+    index_file = static_dir / "index.html"
+    if index_file.exists():
+        from fastapi.responses import FileResponse
+        return FileResponse(str(index_file))
+    
+    raise HTTPException(status_code=404, detail="File not found")
+
+# Single deployment mode - serves both API and frontend
 
 @app.on_event("startup")
 async def startup_event():
