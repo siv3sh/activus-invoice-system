@@ -28,6 +28,7 @@ RUN apt-get update && apt-get install -y \
     g++ \
     libffi-dev \
     libssl-dev \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy backend requirements
@@ -41,6 +42,9 @@ COPY backend/ .
 
 # Copy built frontend from previous stage
 COPY --from=frontend-build /app/frontend/build ./static
+
+# Verify static files are copied
+RUN ls -la static/ && echo "Static files copied successfully"
 
 # Create non-root user
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
