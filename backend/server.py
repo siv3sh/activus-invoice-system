@@ -54,11 +54,8 @@ db = client[os.environ['DB_NAME']]
 app = FastAPI(title="Activus Invoice Management System", version="1.0.0")
 api_router = APIRouter(prefix="/api")
 
-# Mount static files (only if directory exists)
-import os
-static_dir = os.path.join(os.path.dirname(__file__), "..", "frontend", "build")
-if os.path.exists(static_dir):
-    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+# Backend-only mode - no static files serving
+# Frontend is deployed separately on Vercel
 
 # Security
 security = HTTPBearer()
@@ -4317,21 +4314,8 @@ async def get_system_health(current_user: dict = Depends(get_current_user)):
 # Include router
 app.include_router(api_router)
 
-# Serve React app for all non-API routes
-@app.get("/{full_path:path}")
-async def serve_react_app(full_path: str):
-    """Serve React app for all non-API routes"""
-    if full_path.startswith("api/") or full_path.startswith("docs") or full_path.startswith("openapi.json"):
-        raise HTTPException(status_code=404, detail="Not Found")
-    
-    # Serve index.html for all other routes (React Router will handle routing)
-    try:
-        index_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "build", "index.html")
-        with open(index_path, "r") as f:
-            content = f.read()
-        return Response(content=content, media_type="text/html")
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail="Frontend not found")
+# Backend-only API service - no frontend serving
+# Frontend is deployed separately on Vercel
 
 @app.on_event("startup")
 async def startup_event():
