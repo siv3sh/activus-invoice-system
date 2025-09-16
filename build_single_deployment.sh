@@ -37,32 +37,6 @@ cp -r frontend/build/* backend/static/
 
 echo "✅ Frontend copied to backend/static"
 
-# Create a simple index.html redirect for root path
-echo "📄 Creating root redirect..."
-cat > backend/static/index.html << 'EOF'
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Activus Invoice Management System" />
-    <title>Activus Invoice System</title>
-    <script>
-        // Redirect to the actual React app
-        window.location.href = '/';
-    </script>
-</head>
-<body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root">
-        <h1>Loading Activus Invoice System...</h1>
-        <p>If you see this message, please refresh the page.</p>
-    </div>
-</body>
-</html>
-EOF
-
 echo "✅ Build process completed!"
 echo ""
 echo "🎯 Your application is now ready for single deployment!"
